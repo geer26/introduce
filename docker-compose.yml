@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+
+#  proxy:
+#    container_name: proxy
+#    image: nginx:alpine
+#    hostname: proxy
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./html:/usr/share/nginx/html:ro
+#      - ./nconf/mysite.conf:/etc/nginx/nginx.conf:ro
+#      - ./nconf/conf.d:/etc/nginx/conf.d:ro
+
+#    mysite:
+#      container_name: mysite
+#      hostname: mysite
+#      build: ./mysite/.
+#      command: flask db init && flask db migrate && flask db upgrade
+#      volumes:
+#        - ./:/code:ro
+      # comment inproduction!
+#      ports:
+#        - "8000:8000"
+#      depends_on:
+#        - pgdb
+
+  pgdb:
+    container_name: pgdb
+    hostname: pgdb
+    image: "postgres:14.1-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      # change in production!
+      - POSTGRES_USER=pgadmin
+      - POSTGRES_PASSWORD=pgpassword
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+#    depends_on:
+#      - proxy
+
+  
